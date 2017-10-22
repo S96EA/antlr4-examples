@@ -1,12 +1,13 @@
 grammar CSV;
 
-file : header line+ ;
+file : hdr row* ;
+hdr : row ;
+row : field (',' field)* '\r'? '\n' ;
 
-header : line ;
+field : TEXT        # text
+      | STRING      # string
+      |             # empty
+      ;
 
-line : field (',' field)* '\r'? '\n' ;
-
-field : TEXT | STRING ;
-
-TEXT : ~[\r\n,"]+ ;
-STRING : '"' ('""'|~'"')* '"';
+TEXT : ~[,\n\r"]+ ;
+STRING : '"' ('""'|~'"')* '"' ;
